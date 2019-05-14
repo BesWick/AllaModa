@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 
-public class Main2Activity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
