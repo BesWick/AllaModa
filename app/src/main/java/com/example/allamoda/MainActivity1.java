@@ -12,12 +12,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity1 extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
