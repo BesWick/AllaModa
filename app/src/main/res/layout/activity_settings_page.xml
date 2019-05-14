@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingsPage">
+    <TextView
+        android:layout_width="368dp"
+        android:layout_height="58dp"
+        android:text="Settings"
+        android:textSize="35dp"/>
+
+    <EditText
+        android:layout_width="368dp"
+        android:layout_height="54dp"
+        android:hint="first name" />
+
+    <EditText
+        android:layout_width="368dp"
+        android:layout_height="42dp"
+        android:hint="last name" />
+
+    <EditText
+        android:layout_width="368dp"
+        android:layout_height="50dp"
+        android:hint="email address" />
+
+</android.widget.LinearLayout>
