@@ -23,6 +23,14 @@
         </activity>
         <activity android:name=".Login">
         </activity>
+        <activity android:name=".CreateNewOutfit">
+        </activity>
+        <activity android:name=".PreviousOutfits">
+        </activity>
+        <activity android:name=".SettingsPage">
+        </activity>
+        <activity android:name=".StoreClothes">
+        </activity>
         <activity android:name=".MainActivity1">
         </activity>
         <activity android:name=".MainActivity">
