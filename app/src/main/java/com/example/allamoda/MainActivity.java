@@ -5,67 +5,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-
-
-import java.nio.file.Path;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int RC_SIGN_IN = 123;
+    private android.widget.Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-
-
-        Button debugActivityButton = findViewById(R.id.debugActivityButton);
-        final Intent debugActivity = new Intent(this,DEBUG.class);
-        debugActivityButton.setOnClickListener(new View.OnClickListener() {
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(debugActivity);
+                openActivity();
             }
         });
-        Button debugImageButton = findViewById(R.id.debugImage);
-        final Intent debugImageActivity = new Intent(this,DEBUG_TAKE_PICTURE.class);
-        debugImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(debugImageActivity);
-            }
-        });
-
-        Button debugPants= findViewById(R.id.debugPants);
-        final Intent debugPantsActivity = new Intent(this,PANTS_DEBUG.class);
-        debugPants.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(debugPantsActivity);
-            }
-        });
-        if (auth.getCurrentUser() != null) {
-            // already signed in
-
-        } else {
-            // not signed in
-            startActivityForResult(
-                    // Get an instance of AuthUI based on the default app
-                    AuthUI.getInstance().createSignInIntentBuilder()
-                            .setAvailableProviders(Arrays.asList(
-                    new AuthUI.IdpConfig.GoogleBuilder().build()))
-                            .build(),
-                    RC_SIGN_IN);
-
-
-        }
-
-
     }
-
-
-
+    public void openActivity(){
+        Intent intent2 = new Intent(this, Login.class);
+        startActivity(intent2);
+    }
 }
