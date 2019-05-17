@@ -9,12 +9,14 @@
         tools:context=".MainActivity">
 
     <TextView
+            android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif-monospace"
             android:text="alla moda"
             android:textColor="#FFFFFF"
-            android:textSize="70dp"
+            android:textSize="60dp"
+            android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -28,10 +30,9 @@
             android:text="fashion on the go"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainTitle"
             app:layout_constraintVertical_bias="0.297" />
 
     <Button
