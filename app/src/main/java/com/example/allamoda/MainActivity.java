@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
@@ -33,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
                                     new AuthUI.IdpConfig.EmailBuilder().build()))
                             .build(),
                     RC_SIGN_IN);
-            //When new user is created then go to home page
 
+            //When user is created add email to the DB
 
         }
         button = (Button) findViewById(R.id.button);
@@ -48,5 +51,28 @@ public class MainActivity extends AppCompatActivity {
     public void openActivity(){
         Intent intent2 = new Intent(this, HomePage.class);
         startActivity(intent2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                DBHandler db = new DBHandler();
+                db.addNewUser(user);
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+                Toast.makeText(this, "ERROR CREATING NEW ACCOUNT FAILED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
