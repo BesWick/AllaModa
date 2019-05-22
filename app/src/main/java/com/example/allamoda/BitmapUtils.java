@@ -2,6 +2,8 @@ package com.example.allamoda;
 
 import android.graphics.*;
 
+import java.io.ByteArrayOutputStream;
+
 public class BitmapUtils {
     public static Bitmap getCropBitmap(Bitmap bitmap, Path path){
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
@@ -22,5 +24,17 @@ public class BitmapUtils {
 
         return output;
     }
+    // convert from bitmap to byte array
+    public static byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    // convert from byte array to bitmap
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
 
 }

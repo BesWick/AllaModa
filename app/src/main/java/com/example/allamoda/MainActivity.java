@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void openActivity(){
-        Intent intent2 = new Intent(this, HomePage.class);
+        //TODO:change back to homepage!!!
+        Intent intent2 = new Intent(this, DEBUG_TAKE_PICTURE.class);
         startActivity(intent2);
     }
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 DBHandler db = new DBHandler();
-                db.addNewUser(user);
+                db.addNewUser();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
