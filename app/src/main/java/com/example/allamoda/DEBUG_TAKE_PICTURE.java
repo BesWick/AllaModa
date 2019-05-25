@@ -40,22 +40,18 @@ public class DEBUG_TAKE_PICTURE extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap bInput = (Bitmap) extras.get("data");
             ImageView imageView = findViewById(R.id.DEBUG_IMAGE_VIEW);
-            Bitmap  bOutput;
-            Matrix matrix = new Matrix();
-            matrix.preScale(1.0f, -1.0f);
-            bOutput = Bitmap.createBitmap(bInput, 0, 0, bInput.getWidth(), bInput.getHeight(), matrix, true);
-            Bitmap shirt = OutfitCropper.getShortShirt(bOutput);
+
 
             //THis code is to store the shirt into db and get it from db
             // and display shirt image
             DBHandler dbHandler = new DBHandler();
-            dbHandler.addShortShirt(shirt);
+            dbHandler.addImage(bInput);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference userRef = db.collection("users");
             //INCORRECT QUERY
 
 
-            imageView.setImageBitmap(shirt);
+            imageView.setImageBitmap(bInput);
 
         }
     }
