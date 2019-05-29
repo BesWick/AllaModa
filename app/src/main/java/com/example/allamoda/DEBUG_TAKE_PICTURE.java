@@ -38,20 +38,28 @@ public class DEBUG_TAKE_PICTURE extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap bInput = (Bitmap) extras.get("data");
-            ImageView imageView = findViewById(R.id.DEBUG_IMAGE_VIEW);
+            final Bitmap bInput = (Bitmap) extras.get("data");
+            final ImageView imageView = findViewById(R.id.DEBUG_IMAGE_VIEW);
 
 
             //THis code is to store the shirt into db and get it from db
             // and display shirt image
-            DBHandler dbHandler = new DBHandler();
+            final DBHandler dbHandler = new DBHandler();
             dbHandler.addImage(bInput);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference userRef = db.collection("users");
-            //INCORRECT QUERY
 
-
-            imageView.setImageBitmap(bInput);
+            dbHandler.getAllImages(new DBHandler.ReturnCallBack() {
+                @Override
+                public void onCallback(List<String> value) {
+                    dbHandler.getImage(value.get(value.size() - 1), new DBHandler.MyCallback() {
+                        @Override
+                        public void onCallback(Bitmap value) {
+                            imageView.setImageBitmap(value);
+                        }
+                    });
+                }
+            });
 
         }
     }
