@@ -1,18 +1,11 @@
 package com.example.allamoda;
 
-import android.database.Cursor;
 import android.graphics.*;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.*;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 
@@ -38,7 +31,7 @@ public class DEBUG extends AppCompatActivity {
         setContentView(R.layout.activity_debug);
         final DBHandler dbHandler = new DBHandler();
         final ImageView imageView = findViewById(R.id.debugImage);
-        dbHandler.getAllImages(new DBHandler.ReturnCallBack() {
+        dbHandler.getOutfitAll(DBHandler.SHIRT_OPTION,new DBHandler.ReturnCallBack() {
             @Override
             public void onCallback(List<String> value) {
                 dbHandler.getImage(value.get(value.size() - 1), new DBHandler.MyCallback() {
@@ -49,8 +42,5 @@ public class DEBUG extends AppCompatActivity {
                 });
             }
         });
-
-
     }
-
 }

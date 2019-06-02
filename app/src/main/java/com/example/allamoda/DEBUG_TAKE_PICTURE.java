@@ -2,18 +2,13 @@ package com.example.allamoda;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class DEBUG_TAKE_PICTURE extends AppCompatActivity {
@@ -45,21 +40,13 @@ public class DEBUG_TAKE_PICTURE extends AppCompatActivity {
             //THis code is to store the shirt into db and get it from db
             // and display shirt image
             final DBHandler dbHandler = new DBHandler();
-            dbHandler.addImage(bInput);
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            CollectionReference userRef = db.collection("users");
-
-            dbHandler.getAllImages(new DBHandler.ReturnCallBack() {
+            dbHandler.addImage(DBHandler.SHIRT_OPTION, bInput, new DBHandler.MyCallback() {
                 @Override
-                public void onCallback(List<String> value) {
-                    dbHandler.getImage(value.get(value.size() - 1), new DBHandler.MyCallback() {
-                        @Override
-                        public void onCallback(Bitmap value) {
-                            imageView.setImageBitmap(value);
-                        }
-                    });
+                public void onCallback(Bitmap value) {
+                    imageView.setImageBitmap(value);
                 }
             });
+
 
         }
     }

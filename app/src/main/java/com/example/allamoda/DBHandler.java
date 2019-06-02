@@ -1,7 +1,6 @@
 package com.example.allamoda;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -13,13 +12,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import javax.security.auth.callback.Callback;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public class DBHandler {
+
+    public static int SHIRT_OPTION = 0;
+    public static int PANTS_OPTION = 1;
+    public static int SHOES_OPTION = 2;
+    public static int HAT_OPTION = 3;
+
+
+
     public interface MyCallback {
         void onCallback(Bitmap value);
     }
@@ -33,7 +38,7 @@ public class DBHandler {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     // ...
-    private void addShortShirt(String shirt){
+    private void addShirt(String shirt){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //TODO: get outfit cropper to crop shoes
         assert user != null;
@@ -44,21 +49,38 @@ public class DBHandler {
                 );
     }
 
-    private void addShortPants(Bitmap pants){
-
-    }
-    private void addLongPants(Bitmap pants){
-
-    }
-
-    private void addShoes(Bitmap shoes){
+    private void addPants(String pants){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //TODO: get outfit cropper to crop shoes
+        assert user != null;
+        DocumentReference shirtRef = db.collection("users").document(user.getUid());
+        shirtRef.update(
+                //TODO: convert the field to a set of values
+                "pants", FieldValue.arrayUnion(pants)
+        );
 
-        db.collection("users").document(user.getUid())
-                .update(
-                        "shoes", 13
-                );
+    }
+
+
+    private void addShoes(String shoes){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO: get outfit cropper to crop shoes
+        assert user != null;
+        DocumentReference shirtRef = db.collection("users").document(user.getUid());
+        shirtRef.update(
+                //TODO: convert the field to a set of values
+                "shoes", FieldValue.arrayUnion(shoes)
+        );
+    }
+    private void addHat(String hat){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO: get outfit cropper to crop shoes
+        assert user != null;
+        DocumentReference shirtRef = db.collection("users").document(user.getUid());
+        shirtRef.update(
+                //TODO: convert the field to a set of values
+                "shoes", FieldValue.arrayUnion(hat)
+        );
     }
 
     void addNewUser(){
@@ -70,7 +92,7 @@ public class DBHandler {
 
     }
     //stores image bitmap to Firebase Storage then stores id through firestore
-    public void addImage(Bitmap bInput){
+    public void addImage(final int option, Bitmap bInput, final MyCallback callback){
 
         //flip image upside down
         Matrix matrix = new Matrix();
@@ -78,7 +100,7 @@ public class DBHandler {
         Bitmap bitmap = Bitmap.createBitmap(bInput, 0, 0, bInput.getWidth(), bInput.getHeight(), matrix, true);
 
         //cop image to tshirt
-        Bitmap shirt = OutfitCropper.getShortShirt(bitmap);
+        final Bitmap shirt = OutfitCropper.getShortShirt(bitmap);
 
         //Store image into firebase storage
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -100,7 +122,23 @@ public class DBHandler {
                 // ...
                 String id = taskSnapshot.getMetadata().getName().toString();
                 Log.d(TAG, "onSuccess: ID IS"+ id);
-                addShortShirt(id);
+
+                //this switch is used to determine the category of the item
+                switch (option){
+                    case 0:
+                        addShirt(id);
+                        break;
+                    case 1:
+                        addPants(id);
+                        break;
+                    case 2:
+                        addShoes(id);
+                        break;
+                    case 3:
+                        addHat(id);
+                        break;
+                }
+                callback.onCallback(shirt);
             }
         });
     }
@@ -131,23 +169,39 @@ public class DBHandler {
         });
         return out[0];
     }
-
+    
 
     //TODO: add function which returns a bitmap list of certain clothing
-    public List<Bitmap> getAllImages(final ReturnCallBack callBack){
+    public List<Bitmap> getOutfitAll(final int option, final ReturnCallBack callBack){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final List<Bitmap> imageList = new ArrayList<>();
-
 
 
         DocumentReference docRef = db.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                String outfitOption = null;
+                switch (option){
+                    case 0:
+                        outfitOption = "shirt";
+                        break;
+                    case 1:
+                        outfitOption = "pants";
+                        break;
+                    case 2:
+                        outfitOption = "shoes";
+                        break;
+                    case 3:
+                        outfitOption = "hat";
+                        break;
+                }
+
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        final List<String> group = (List<String>) document.get("shirt");
+                        final List<String> group = (List<String>) document.get(outfitOption);
                         assert group != null;
                         callBack.onCallback(group);
 
@@ -160,6 +214,16 @@ public class DBHandler {
             }
         });
         return imageList;
+    }
+
+
+
+    public List<String> getOutfitByEmail(String email, int option){
+        //get user outfit byt email
+        List<String> outfitList = new ArrayList<>();
+
+
+        return outfitList;
     }
 
 
