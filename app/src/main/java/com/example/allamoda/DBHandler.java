@@ -22,6 +22,7 @@ public class DBHandler {
     public static int PANTS_OPTION = 1;
     public static int SHOES_OPTION = 2;
     public static int HAT_OPTION = 3;
+    public static int OUTFIT_OPTION = 4;
 
 
 
@@ -70,6 +71,16 @@ public class DBHandler {
         shirtRef.update(
                 //TODO: convert the field to a set of values
                 "shoes", FieldValue.arrayUnion(shoes)
+        );
+    }
+    private void addOutfit(String outfit){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO: get outfit cropper to crop shoes
+        assert user != null;
+        DocumentReference shirtRef = db.collection("users").document(user.getUid());
+        shirtRef.update(
+                //TODO: convert the field to a set of values
+                "outfit", FieldValue.arrayUnion(outfit)
         );
     }
     private void addHat(String hat){
@@ -137,6 +148,9 @@ public class DBHandler {
                     case 3:
                         addHat(id);
                         break;
+                    case 4:
+                        addOutfit(id);
+                        break;
                 }
                 callback.onCallback(shirt);
             }
@@ -196,6 +210,9 @@ public class DBHandler {
                     case 3:
                         outfitOption = "hat";
                         break;
+                    case 4:
+                        outfitOption = "outfit";
+                        break;
                 }
 
                 if (task.isSuccessful()) {
@@ -218,13 +235,40 @@ public class DBHandler {
 
 
 
-    public List<String> getOutfitByEmail(String email, int option){
+    public List<String> getOutfitByEmail(String email, int option, final ReturnCallBack callBack){
         //get user outfit byt email
         List<String> outfitList = new ArrayList<>();
-
-
-        return outfitList;
+        String outfitOption = null;
+        switch (option){
+            case 0:
+                outfitOption = "shirt";
+                break;
+            case 1:
+                outfitOption = "pants";
+                break;
+            case 2:
+                outfitOption = "shoes";
+                break;
+            case 3:
+                outfitOption = "hat";
+                break;
+            case 4:
+                outfitOption = "outfit";
+                break;
+        }
+        final String finalOutfitOption = outfitOption;
+        db.collection("users").whereEqualTo("email", email).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<String> outfitList = (List<String>) queryDocumentSnapshots.getDocuments().get(0).get(finalOutfitOption);
+                callBack.onCallback(outfitList);
+                Log.d(TAG, "onSuccess: OUTFITLIST SIZE" + outfitList.size());
+            }
+        });
+        return null;
     }
+
 
 
 

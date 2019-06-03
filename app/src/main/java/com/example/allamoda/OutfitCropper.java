@@ -25,6 +25,8 @@ public class OutfitCropper  {
         return image;
     }
 
+
+
     private static Path getTShirtPath(Bitmap src) {
         return resizePath(PathParser.createPathFromPathData(OutfitOutline.SHORT_SHIRT),
                 src.getWidth(), src.getHeight());
