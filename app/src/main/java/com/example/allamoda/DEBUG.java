@@ -34,14 +34,13 @@ public class DEBUG extends AppCompatActivity {
 
         final ImageView imageView = findViewById(R.id.debugImage);
 
-        dbHandler.getOutfitByEmail("hycheng@ucsc.edu", DBHandler.SHIRT_OPTION, new DBHandler.ReturnCallBack() {
+        dbHandler.getOutfitByEmail("henryx75@gmail.com", DBHandler.SHIRT_OPTION, new DBHandler.ReturnCallBack() {
             @Override
             public void onCallback(List<String> value) {
                 dbHandler.getImage(value.get(value.size() - 1), new DBHandler.MyCallback() {
                     @Override
                     public void onCallback(Bitmap value) {
-                        if(value!= null)
-                           imageView.setImageBitmap(value);
+                        imageView.setImageBitmap(value);
 
                     }
                 });

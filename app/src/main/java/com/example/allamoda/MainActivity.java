@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
                                     new AuthUI.IdpConfig.EmailBuilder().build()))
                             .build(),
                     RC_SIGN_IN);
-
             //When user is created add email to the DB
 
         }

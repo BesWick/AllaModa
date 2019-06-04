@@ -23,6 +23,8 @@ public class DBHandler {
     public static int SHOES_OPTION = 2;
     public static int HAT_OPTION = 3;
     public static int OUTFIT_OPTION = 4;
+    public static int LONG_SHIRT_OPTION = 5;
+    public static int SHORT_PANTS_OPTION = 6;
 
 
 
@@ -104,21 +106,44 @@ public class DBHandler {
     }
     //stores image bitmap to Firebase Storage then stores id through firestore
     public void addImage(final int option, Bitmap bInput, final MyCallback callback){
-
+        final Bitmap shirt;
         //flip image upside down
         Matrix matrix = new Matrix();
         matrix.preScale(1.0f, -1.0f);
         Bitmap bitmap = Bitmap.createBitmap(bInput, 0, 0, bInput.getWidth(), bInput.getHeight(), matrix, true);
 
         //cop image to tshirt
-        final Bitmap shirt = OutfitCropper.getShortShirt(bitmap);
+        switch (option){
+            case 0:
+                shirt = OutfitCropper.getShortShirt(bitmap);
+                break;
+            case 1:
+                shirt = OutfitCropper.getPant(bitmap);
+                break;
+            case 2:
+                shirt = OutfitCropper.getShoes(bitmap);
+                break;
+            case 3:
+                shirt = OutfitCropper.getShortShirt(bitmap);
+                break;
+            case 4:
+                shirt = OutfitCropper.getShortShirt(bitmap);
+                break;
+            case 5:
+                shirt = OutfitCropper.getLongShirt(bitmap);
+                break;
+            default:
+                shirt = OutfitCropper.getShortShirt(bitmap);
+                break;
+
+        }
 
         //Store image into firebase storage
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         StorageReference storageRef = storage.getReference();
-        StorageReference imageRef = storageRef.child(timeStamp+".jpg");
+        StorageReference imageRef = storageRef.child(timeStamp+".png");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        shirt.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        shirt.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {

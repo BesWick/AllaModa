@@ -15,6 +15,36 @@ public class OutfitCropper  {
         return image;
     }
 
+
+    private static Path getLongShirtPath(Bitmap src) {
+        return resizePath(PathParser.createPathFromPathData(OutfitOutline.LONG_SHIRT),
+                src.getWidth(), src.getHeight());
+    }
+
+    public static Bitmap getShoes(Bitmap bitmap){
+        Path path = getShoesPath(bitmap);
+        Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
+        return image;
+    }
+
+    private static Path getShoesPath(Bitmap src) {
+        return resizePath(PathParser.createPathFromPathData(OutfitOutline.SHOES),
+                src.getWidth(), src.getHeight());
+    }
+
+    public static Bitmap getLongShirt(Bitmap bitmap){
+        Path path = getLongShirtPath(bitmap);
+        Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
+        return image;
+    }
+
+
+    private static Path getTShirtPath(Bitmap src) {
+        return resizePath(PathParser.createPathFromPathData(OutfitOutline.SHORT_SHIRT),
+                src.getWidth(), src.getHeight());
+    }
+
+
     private static Path getPantPath(Bitmap src) {
         return resizePath(PathParser.createPathFromPathData(OutfitOutline.PANTS),
                 src.getWidth(), src.getHeight());
@@ -23,13 +53,6 @@ public class OutfitCropper  {
         Path path = getPantPath(bitmap);
         Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
         return image;
-    }
-
-
-
-    private static Path getTShirtPath(Bitmap src) {
-        return resizePath(PathParser.createPathFromPathData(OutfitOutline.SHORT_SHIRT),
-                src.getWidth(), src.getHeight());
     }
 
     public static Path resizePath(Path path, float width, float height) {
