@@ -13,4 +13,16 @@
         -374 1906 l-6 22 -1194 3 c-656 1 -1194 0 -1196 -3z
     </string>
 
+
+    <string name="title_activity_main">A Main Activity</string>
+    <string name="button_use_camera">Use Camera</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="button_capture_text">SNAP</string>
+    <string name="content_desc_overlay">overlay</string>
+    <string name="content_desc_image_just_taken">Image just taken</string>
+    <string name="start_image_capture">Take a New Picture</string>
+    <string name="capture_image">Snap it!</string>
+    <string name="save_image">Save Picture</string>
+    <string name="recapture_image">Retake Picture</string>
+    <string name="done">Done</string>
 </resources>
