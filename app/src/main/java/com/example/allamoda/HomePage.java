@@ -42,13 +42,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        button5 = (Button) findViewById(R.id.button5);
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity5();
-            }
-        });
     }
 
     public void openActivity2(){
@@ -66,8 +59,5 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent2);
     }
 
-    public void openActivity5(){
-        Intent intent2 = new Intent(this, SettingsPage.class);
-        startActivity(intent2);
-    }
+
 }
