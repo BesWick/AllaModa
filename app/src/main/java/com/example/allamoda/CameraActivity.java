@@ -1,122 +1,227 @@
 package com.example.allamoda;
+import java.io.IOException;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PointF;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.*;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Calendar;
+public class CameraActivity extends Activity implements PictureCallback, SurfaceHolder.Callback {
 
-public class CameraActivity extends Activity implements View.OnClickListener {
+    public static final String EXTRA_CAMERA_DATA = "camera_data";
 
-    private SurfaceView preview = null;
-    private SurfaceHolder previewHolder = null;
-    private Camera camera;
-    private boolean inPreview = false;
-    ImageView image;
-    Bitmap bmp, itembmp;
-    static Bitmap mutableBitmap;
-    PointF start = new PointF();
-    PointF mid = new PointF();
-    float oldDist = 1f;
-    File imageFileName = null;
-    File imageFileFolder = null;
-    private MediaScannerConnection msConn;
-    Display d;
-    int screenhgt, screenwdh;
-    ProgressDialog dialog;
+    private static final String KEY_IS_CAPTURING = "is_capturing";
 
+    private Camera mCamera;
+    private ImageView mCameraImage;
+    private SurfaceView mCameraPreview;
+    private Button mCaptureImageButton;
+    private byte[] mCameraData;
+    private boolean mIsCapturing;
 
+    private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            captureImage();
+        }
+    };
+
+    private OnClickListener mRecaptureImageButtonClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setupImageCapture();
+        }
+    };
+
+    private OnClickListener mDoneButtonClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(),
+                    MainActivity.class);
+            if (mCameraData != null) {
+                intent.putExtra(EXTRA_CAMERA_DATA, mCameraData);
+                setResult(RESULT_OK, intent);
+            } else {
+                setResult(RESULT_CANCELED);
+            }
+            startActivity(intent);
+        }
+    };
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_camera);
 
-
+        ImageView  image = (ImageView) findViewById(R.id.camera_preview);
         image = (ImageView) findViewById(R.id.camera_preview);
-        preview = (SurfaceView) findViewById(R.id.surface);
         image.setAlpha(0.5f);
 
+        mCameraImage = (ImageView) findViewById(R.id.camera_image_view);
+        mCameraImage.setVisibility(View.INVISIBLE);
 
-        previewHolder = preview.getHolder();
-        previewHolder.addCallback(surfaceCallback);
-        previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mCameraPreview = (SurfaceView) findViewById(R.id.preview_view);
+        final SurfaceHolder surfaceHolder = mCameraPreview.getHolder();
+        surfaceHolder.addCallback(this);
+        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        previewHolder.setFixedSize(getWindow().getWindowManager()
-                .getDefaultDisplay().getWidth(), getWindow().getWindowManager()
-                .getDefaultDisplay().getHeight());
+        mCaptureImageButton = (Button) findViewById(R.id.capture_image_button);
+        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
 
+        final Button doneButton = (Button) findViewById(R.id.done_button);
+        doneButton.setOnClickListener(mDoneButtonClickListener);
 
+        mIsCapturing = true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putBoolean(KEY_IS_CAPTURING, mIsCapturing);
+    }
 
     @Override
-    public void onPause() {
-        if (inPreview) {
-            camera.stopPreview();
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mIsCapturing = savedInstanceState.getBoolean(KEY_IS_CAPTURING, mCameraData == null);
+        if (mCameraData != null) {
+            setupImageDisplay();
+        } else {
+            setupImageCapture();
         }
-
-        camera.release();
-        camera = null;
-        inPreview = false;
-        super.onPause();
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        camera = Camera.open();
-        camera.setDisplayOrientation(0);
-        setCameraDisplayOrientation(this,
-                Camera.CameraInfo.CAMERA_FACING_BACK, camera);
-    }
 
+        if (mCamera == null) {
+            try {
+                mCamera = Camera.open();
+                mCamera.setDisplayOrientation(90);
+                mCamera.setPreviewDisplay(mCameraPreview.getHolder());
+                int angleToRotate=getRoatationAngle(CameraActivity.this, Camera.CameraInfo.CAMERA_FACING_FRONT);
+                mCamera.setDisplayOrientation(angleToRotate);
+                mCamera.setDisplayOrientation(90);
+                if (mIsCapturing) {
+                    mCamera.setDisplayOrientation(90);
+                    mCamera.startPreview();
 
-
-    private Camera.Size getBestPreviewSize(int width, int height, Camera.Parameters parameters) {
-        Camera.Size result = null;
-        for (Camera.Size size: parameters.getSupportedPreviewSizes()) {
-            if (size.width <= width && size.height <= height) {
-                if (result == null) {
-                    result = size;
-                } else {
-                    int resultArea = result.width * result.height;
-                    int newArea = size.width * size.height;
-                    if (newArea > resultArea) {
-                        result = size;
-                    }
                 }
+            } catch (Exception e) {
+                Toast.makeText(CameraActivity.this, "Unable to open camera.", Toast.LENGTH_LONG)
+                        .show();
             }
         }
-        return (result);
     }
 
-    private void setCameraDisplayOrientation(Activity activity, int cameraId,
-                                             android.hardware.Camera camera) {
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mCamera != null) {
+            mCamera.release();
+            mCamera = null;
+        }
+    }
+
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+        mCameraData = data;
+
+        Bitmap orignalImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Bitmap bitmapImage = rotate(orignalImage, 90);
+
+        setupImageDisplay();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        if (mCamera != null) {
+            try {
+                mCamera.setPreviewDisplay(holder);
+                if (mIsCapturing) {
+                    mCamera.startPreview();
+                }
+            } catch (IOException e) {
+                Toast.makeText(CameraActivity.this, "Unable to start camera preview.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public static Bitmap rotate(Bitmap bitmap, int degree) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        //       mtx.postRotate(degree);
+        mtx.setRotate(degree);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+    }
+
+    private void captureImage() {
+        mCamera.takePicture(null, null, this);
+    }
+
+    private void setupImageCapture() {
+        mCameraImage.setVisibility(View.INVISIBLE);
+        mCameraPreview.setVisibility(View.VISIBLE);
+        mCamera.startPreview();
+        mCaptureImageButton.setText(R.string.capture_image);
+        mCaptureImageButton.setOnClickListener(mCaptureImageButtonClickListener);
+    }
+
+    private void setupImageDisplay() {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(mCameraData, 0, mCameraData.length);
+        bitmap = rotate(bitmap, 90);
+        mCameraImage.setImageBitmap(bitmap);
+        mCamera.stopPreview();
+        mCameraPreview.setVisibility(View.INVISIBLE);
+        mCameraImage.setVisibility(View.VISIBLE);
+        mCaptureImageButton.setText(R.string.recapture_image);
+        mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
+    }
+
+
+
+
+
+    /**
+     * Get Rotation Angle
+     *
+     * @param mContext
+     * @param cameraId
+     *            probably front cam
+     * @return angel to rotate
+     */
+    public static int getRoatationAngle(Activity mContext, int cameraId) {
         android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
         android.hardware.Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay()
-                .getRotation();
+        int rotation = mContext.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
             case Surface.ROTATION_0:
@@ -132,7 +237,6 @@ public class CameraActivity extends Activity implements View.OnClickListener {
                 degrees = 270;
                 break;
         }
-
         int result;
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             result = (info.orientation + degrees) % 360;
@@ -140,149 +244,6 @@ public class CameraActivity extends Activity implements View.OnClickListener {
         } else { // back-facing
             result = (info.orientation - degrees + 360) % 360;
         }
-        camera.setDisplayOrientation(result);
+        return result;
     }
-
-
-
-
-
-
-    SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
-        public void surfaceCreated(SurfaceHolder holder) {
-            try {
-                camera.setPreviewDisplay(previewHolder);
-            } catch (Throwable t) {
-                Log.e("surfaceCallback",
-                        "Exception in setPreviewDisplay()", t);
-                Toast.makeText(CameraActivity.this, t.getMessage(), Toast.LENGTH_LONG)
-                        .show();
-            }
-        }
-
-        public void surfaceChanged(SurfaceHolder holder,
-                                   int format, int width,
-                                   int height) {
-
-
-
-            Camera.Parameters parameters = camera.getParameters();
-            Camera.Size size = getBestPreviewSize(width, height,
-                    parameters);
-
-            if (size != null) {
-                parameters.setPreviewSize(size.width, size.height);
-                camera.setParameters(parameters);
-                camera.startPreview();
-                inPreview = true;
-            }
-        }
-
-
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // no-op
-        }
-    };
-
-
-    Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
-        public void onPictureTaken(final byte[] data, final Camera camera) {
-            dialog = ProgressDialog.show(CameraActivity.this, "", "Saving Photo");
-            new Thread() {
-                public void run() {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception ex) {}
-                    onPictureTake(data, camera);
-                }
-            }.start();
-        }
-    };
-
-
-
-    public void onPictureTake(byte[] data, Camera camera) {
-
-        bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-        mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
-        savePhoto(mutableBitmap);
-        dialog.dismiss();
-    }
-
-
-
-    class SavePhotoTask extends AsyncTask< byte[], String, String > {@Override
-    protected String doInBackground(byte[]...jpeg) {
-        File photo = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
-        if (photo.exists()) {
-            photo.delete();
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(photo.getPath());
-            fos.write(jpeg[0]);
-            fos.close();
-        } catch (java.io.IOException e) {
-            Log.e("PictureDemo", "Exception in photoCallback", e);
-        }
-        return (null);
-    }
-    }
-
-
-    public void savePhoto(Bitmap bmp) {
-        imageFileFolder = new File(Environment.getExternalStorageDirectory(), "Rotate");
-        imageFileFolder.mkdir();
-        FileOutputStream out = null;
-        Calendar c = Calendar.getInstance();
-        String date = fromInt(c.get(Calendar.MONTH)) + fromInt(c.get(Calendar.DAY_OF_MONTH)) + fromInt(c.get(Calendar.YEAR)) + fromInt(c.get(Calendar.HOUR_OF_DAY)) + fromInt(c.get(Calendar.MINUTE)) + fromInt(c.get(Calendar.SECOND));
-        imageFileName = new File(imageFileFolder, date.toString() + ".jpg");
-        try {
-            out = new FileOutputStream(imageFileName);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-            scanPhoto(imageFileName.toString());
-            out = null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String fromInt(int val) {
-        return String.valueOf(val);
-    }
-
-    public void scanPhoto(final String imageFileName) {
-        msConn = new MediaScannerConnection(CameraActivity.this, new MediaScannerConnection.MediaScannerConnectionClient() {
-            public void onMediaScannerConnected() {
-                msConn.scanFile(imageFileName, null);
-                Log.i("scanPhoto", "connection established");
-            }
-            public void onScanCompleted(String path, Uri uri) {
-                msConn.disconnect();
-                Log.i("ScanPhoto", "scan completed");
-            }
-        });
-        msConn.connect();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
-            onBack();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public void onBack() {
-        Log.e("onBack :", "yes");
-        camera.takePicture(null, null, photoCallback);
-        inPreview = false;
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
 }
