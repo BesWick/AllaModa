@@ -41,7 +41,7 @@ public class DEBUG_TAKE_PICTURE extends AppCompatActivity {
             //THis code is to store the shirt into db and get it from db
             // and display shirt image
             final DBHandler dbHandler = new DBHandler();
-            dbHandler.addImage(DBHandler.SHIRT_OPTION, bInput, new DBHandler.MyCallback() {
+            dbHandler.addImage(DBHandler.HAT_OPTION, bInput, new DBHandler.MyCallback() {
                 @Override
                 public void onCallback(Bitmap value) {
                     imageView.setImageBitmap(value);

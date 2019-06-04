@@ -92,7 +92,7 @@ public class DBHandler {
         DocumentReference shirtRef = db.collection("users").document(user.getUid());
         shirtRef.update(
                 //TODO: convert the field to a set of values
-                "shoes", FieldValue.arrayUnion(hat)
+                "hat", FieldValue.arrayUnion(hat)
         );
     }
 
@@ -124,7 +124,7 @@ public class DBHandler {
                 shirt = OutfitCropper.getShoes(bitmap);
                 break;
             case 3:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = OutfitCropper.getHat(bitmap);
                 break;
             case 4:
                 shirt = OutfitCropper.getShortShirt(bitmap);
