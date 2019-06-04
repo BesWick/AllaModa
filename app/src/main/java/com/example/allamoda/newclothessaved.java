@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class CreateNewOutfit extends AppCompatActivity {
+public class newclothessaved extends AppCompatActivity {
     private android.widget.Button button;
     private android.widget.Button button2;
     private android.widget.Button button3;
@@ -14,25 +14,22 @@ public class CreateNewOutfit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_outfit);
-
-        button = (Button) findViewById(R.id.button7); // Home Page
+        setContentView(R.layout.activity_newclothessaved);
+        button = (Button) findViewById(R.id.button13);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openActivity();
             }
         });
-
-        button2 = (Button) findViewById(R.id.button8); // Style
+        button2 = (Button) findViewById(R.id.button14);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openActivity2();
             }
         });
-
-        button3 = (Button) findViewById(R.id.button6); // Finish
+        button3 = (Button) findViewById(R.id.button14);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,19 +37,17 @@ public class CreateNewOutfit extends AppCompatActivity {
             }
         });
     }
-
     public void openActivity(){
+        Intent intent2 = new Intent(this, CreateNewOutfit.class);
+        startActivity(intent2);
+    }
+    public void openActivity2(){
+        Intent intent2 = new Intent(this, StoreClothes.class);
+        startActivity(intent2);
+    }
+    public void openActivity3(){
         Intent intent2 = new Intent(this, HomePage.class);
         startActivity(intent2);
     }
-
-    public void openActivity2(){
-        Intent intent2 = new Intent(this, OutfitDone.class);
-        startActivity(intent2);
-    }
-
-    public void openActivity3(){
-        Intent intent2 = new Intent(this, style_activity.class);
-        startActivity(intent2);
-    }
 }
+
