@@ -50,5 +50,25 @@ public class StoreClothes extends AppCompatActivity {
                 startActivity(shortShirtIntent);
             }
         });
+
+        Button storeShoes = findViewById(R.id.storeShoes);
+        final Intent storeShoesIntent = new Intent(this, shoes_list.class);
+
+        storeShoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(storeShoesIntent);
+            }
+        });
+
+        Button storeHat = findViewById(R.id.storeHat);
+        final Intent storeHatIntent = new Intent(this, HatList.class);
+
+        storeHat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(storeHatIntent);
+            }
+        });
     }
 }

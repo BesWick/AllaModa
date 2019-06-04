@@ -47,13 +47,6 @@ public class style_activity extends AppCompatActivity {
             }
         });
 
-        button5 = (Button) findViewById(R.id.button10); // long sleeve shirts
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity5();
-            }
-        });
 
         button6 = (Button) findViewById(R.id.button18); // shoes
         button6.setOnClickListener(new View.OnClickListener() {
@@ -63,13 +56,7 @@ public class style_activity extends AppCompatActivity {
             }
         });
 
-        button7 = (Button) findViewById(R.id.button19); // shorts
-        button7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity7();
-            }
-        });
+
 
         button8 = (Button) findViewById(R.id.button20); // t shirt
         button8.setOnClickListener(new View.OnClickListener() {

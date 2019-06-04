@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".DEBUG_TAKE_PICTURE">
         </activity>
+        <activity android:name=".HatList">
+        </activity>
         <activity android:name=".DEBUG">
         </activity>
         <activity android:name=".HomePage">

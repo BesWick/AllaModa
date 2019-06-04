@@ -1,5 +1,4 @@
 package com.example.allamoda;
-import java.io.IOException;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,12 +15,14 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class shoes_list extends Activity implements PictureCallback, SurfaceHolder.Callback {
+import java.io.IOException;
+
+public class HatList extends Activity implements Camera.PictureCallback, SurfaceHolder.Callback {
+
 
     public static final String EXTRA_CAMERA_DATA = "camera_data";
 
@@ -34,24 +34,26 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
     private Button mCaptureImageButton;
     private byte[] mCameraData;
     private boolean mIsCapturing;
-    Intent home;
-    private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
+    public Intent home;
+
+    private View.OnClickListener mCaptureImageButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             captureImage();
         }
     };
 
-    private OnClickListener mRecaptureImageButtonClickListener = new OnClickListener() {
+    private View.OnClickListener mRecaptureImageButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             setupImageCapture();
         }
     };
 
-    private OnClickListener mDoneButtonClickListener = new OnClickListener() {
+    private View.OnClickListener mDoneButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             if (mCameraData != null) {
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_CAMERA_DATA, mCameraData);
@@ -66,12 +68,11 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         home =  new Intent(this, HomePage.class);
 
-        setContentView(R.layout.activity_shoes_list);
+        setContentView(R.layout.activity_hats_list);
 
-        if (ContextCompat.checkSelfPermission(shoes_list.this, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(HatList.this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             // here, Permission is not granted
             ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.CAMERA}, 50);
@@ -126,7 +127,7 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
                 mCamera = Camera.open();
                 mCamera.setDisplayOrientation(90);
                 mCamera.setPreviewDisplay(mCameraPreview.getHolder());
-                int angleToRotate=getRoatationAngle(shoes_list.this, Camera.CameraInfo.CAMERA_FACING_FRONT);
+                int angleToRotate=getRoatationAngle(HatList.this, Camera.CameraInfo.CAMERA_FACING_FRONT);
                 mCamera.setDisplayOrientation(angleToRotate);
                 mCamera.setDisplayOrientation(90);
                 if (mIsCapturing) {
@@ -135,7 +136,7 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
 
                 }
             } catch (Exception e) {
-                Toast.makeText(shoes_list.this, "Unable to open camera.", Toast.LENGTH_LONG)
+                Toast.makeText(HatList.this, "Unable to open camera.", Toast.LENGTH_LONG)
                         .show();
             }
         }
@@ -156,9 +157,9 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
         mCameraData = data;
 
         Bitmap orignalImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap bitmapImage = rotate(orignalImage, 0);
+        Bitmap bitmapImage = rotate(orignalImage, 90);
         DBHandler db = new DBHandler();
-        db.addImage(DBHandler.SHOES_OPTION, bitmapImage, new DBHandler.MyCallback() {
+        db.addImage(DBHandler.HAT_OPTION, bitmapImage, new DBHandler.MyCallback() {
             @Override
             public void onCallback(Bitmap value) {
 
@@ -177,7 +178,7 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
                     mCamera.startPreview();
                 }
             } catch (IOException e) {
-                Toast.makeText(shoes_list.this, "Unable to start camera preview.", Toast.LENGTH_LONG).show();
+                Toast.makeText(HatList.this, "Unable to start camera preview.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -188,7 +189,7 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
 
         Matrix mtx = new Matrix();
         //       mtx.postRotate(degree);
-        mtx.setRotate(degree);
+        mtx.postRotate(degree);
 
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
     }
@@ -222,6 +223,8 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
         mCameraImage.setVisibility(View.VISIBLE);
         mCaptureImageButton.setText(R.string.recapture_image);
         mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
+        mCaptureImageButton.setOnClickListener(mDoneButtonClickListener);
+
     }
 
 

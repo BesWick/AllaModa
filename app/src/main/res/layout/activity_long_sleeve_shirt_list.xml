@@ -29,6 +29,7 @@
                 android:id="@+id/camera_preview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+
                 android:contentDescription="@string/content_desc_overlay"
                 android:scaleType="centerInside"
                 android:src="@drawable/long_sleeve_shirt" />

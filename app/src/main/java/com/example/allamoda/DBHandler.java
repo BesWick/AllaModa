@@ -127,7 +127,7 @@ public class DBHandler {
                 shirt = OutfitCropper.getHat(bitmap);
                 break;
             case 4:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = bitmap;
                 break;
             case 5:
                 Matrix matrixLong = new Matrix();
@@ -194,12 +194,13 @@ public class DBHandler {
     //this get the image bitmap based on the given path of the image
     public Bitmap getImage(String imageName, final MyCallback callBack){
         // Create a storage reference from our app
+        Log.d(TAG, "getImage: imageName"+ imageName);
         StorageReference storageRef = storage.getReference();
         final Bitmap[] out = new Bitmap[1];
         // Create a reference with an initial file path and name
         StorageReference pathReference = storageRef.child(imageName);
 
-        final long ONE_MEGABYTE = 1024 * 1024*500;
+        final long ONE_MEGABYTE = 1024 * 1024*100;
         pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
