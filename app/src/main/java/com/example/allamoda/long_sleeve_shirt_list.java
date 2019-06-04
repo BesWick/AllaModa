@@ -34,6 +34,7 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
     private Button mCaptureImageButton;
     private byte[] mCameraData;
     private boolean mIsCapturing;
+    public Intent home;
 
     private View.OnClickListener mCaptureImageButtonClickListener = new View.OnClickListener() {
         @Override
@@ -52,6 +53,7 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
     private View.OnClickListener mDoneButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             if (mCameraData != null) {
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_CAMERA_DATA, mCameraData);
@@ -59,13 +61,14 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
             } else {
                 setResult(RESULT_CANCELED);
             }
-            finish();
+            startActivity(home);
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        home =  new Intent(this, HomePage.class);
 
         setContentView(R.layout.activity_long_sleeve_shirt_list);
 
@@ -220,6 +223,8 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
         mCameraImage.setVisibility(View.VISIBLE);
         mCaptureImageButton.setText(R.string.recapture_image);
         mCaptureImageButton.setOnClickListener(mRecaptureImageButtonClickListener);
+        mCaptureImageButton.setOnClickListener(mDoneButtonClickListener);
+
     }
 
 

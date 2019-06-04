@@ -88,32 +88,32 @@ public class style_activity extends AppCompatActivity {
 
 
     public void openActivity3(){
-        Intent intent2 = new Intent(this, hatsList.class);
+        Intent intent2 = new Intent(this, HatsListSelect.class);
         startActivity(intent2);
     }
 
     public void openActivity4(){
-        Intent intent2 = new Intent(this, long_pants_activity.class);
+        Intent intent2 = new Intent(this, ShortsListSelect.class);
         startActivity(intent2);
     }
 
     public void openActivity5(){
-        Intent intent2 = new Intent(this, long_sleeve_shirt_list.class);
+        Intent intent2 = new Intent(this, LongShirtListSelect.class);
         startActivity(intent2);
     }
 
     public void openActivity6(){
-        Intent intent2 = new Intent(this, shoes_list.class);
+        Intent intent2 = new Intent(this, ShoesListSelect.class);
         startActivity(intent2);
     }
 
     public void openActivity7(){
-        Intent intent2 = new Intent(this, shorts_list.class);
+        Intent intent2 = new Intent(this, ShortsListSelect.class);
         startActivity(intent2);
     }
 
     public void openActivity8(){
-        Intent intent2 = new Intent(this, T_Shirt_list.class);
+        Intent intent2 = new Intent(this, LongShirtListSelect.class);
         startActivity(intent2);
     }
 }

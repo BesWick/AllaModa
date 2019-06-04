@@ -34,6 +34,7 @@ public class T_Shirt_list extends Activity implements PictureCallback, SurfaceHo
     private Button mCaptureImageButton;
     private byte[] mCameraData;
     private boolean mIsCapturing;
+    Intent home;
 
     private OnClickListener mCaptureImageButtonClickListener = new OnClickListener() {
         @Override
@@ -59,13 +60,14 @@ public class T_Shirt_list extends Activity implements PictureCallback, SurfaceHo
             } else {
                 setResult(RESULT_CANCELED);
             }
-            finish();
+            startActivity(home);
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        home =  new Intent(this, HomePage.class);
 
         setContentView(R.layout.activity_t__shirt_list);
 
@@ -154,7 +156,7 @@ public class T_Shirt_list extends Activity implements PictureCallback, SurfaceHo
         mCameraData = data;
 
         Bitmap orignalImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap bitmapImage = rotate(orignalImage, 0);
+        Bitmap bitmapImage = rotate(orignalImage, 90);
         DBHandler db = new DBHandler();
         db.addImage(DBHandler.SHIRT_OPTION, bitmapImage, new DBHandler.MyCallback() {
             @Override

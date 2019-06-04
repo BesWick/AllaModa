@@ -143,7 +143,7 @@ public class DBHandler {
         StorageReference storageRef = storage.getReference();
         StorageReference imageRef = storageRef.child(timeStamp+".png");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        shirt.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        shirt.compress(Bitmap.CompressFormat.PNG, 50, baos);
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -196,7 +196,7 @@ public class DBHandler {
         // Create a reference with an initial file path and name
         StorageReference pathReference = storageRef.child(imageName);
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 1024 * 1024*500;
         pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
