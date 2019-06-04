@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openActivity(){
         //TODO:change back to homepage!!!
-        Intent intent2 = new Intent(this, DEBUG.class);
+        Intent intent2 = new Intent(this, HomePage.class);
         startActivity(intent2);
     }
 

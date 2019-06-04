@@ -54,24 +54,6 @@ public class OutfitCropper  {
         Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
         return image;
     }
-    private static Path getLongPantsPath(Bitmap src) {
-        return resizePath(PathParser.createPathFromPathData(OutfitOutline.LONG_PANTS),
-                src.getWidth(), src.getHeight());
-    }
-    public static Bitmap getLongPants(Bitmap bitmap){
-        Path path = getLongPantsPath(bitmap);
-        Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
-        return image;
-    }
-    private static Path getHatPath(Bitmap src) {
-        return resizePath(PathParser.createPathFromPathData(OutfitOutline.HAT),
-                src.getWidth(), src.getHeight());
-    }
-    public static Bitmap getHat(Bitmap bitmap){
-        Path path = getPantPath(bitmap);
-        Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
-        return image;
-    }
 
     public static Path resizePath(Path path, float width, float height) {
         RectF bounds = new RectF(0, 0, width, height);
