@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.allamoda">
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
             android:name="android.hardware.camera"
@@ -13,16 +14,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".T_Shirt_list">
-        </activity>
-        <activity android:name=".long_sleeve_shirt_list">
-        </activity>
-        <activity android:name=".shorts_list">
-        </activity>
-        <activity android:name=".shoes_list">
-        </activity>
-        <activity android:name=".long_pants_activity">
-        </activity>
         <activity android:name=".hatsList">
         </activity>
         <activity android:name=".style_activity">
@@ -54,6 +45,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".T_Shirt_list"
+            android:label="@string/title_activity_camera"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+                android:name=".long_pants_activity"
+                android:label="@string/title_activity_camera"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+                android:name=".shoes_list"
+                android:label="@string/title_activity_camera"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+                android:name=".long_sleeve_shirt_list"
+                android:label="@string/title_activity_camera"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>

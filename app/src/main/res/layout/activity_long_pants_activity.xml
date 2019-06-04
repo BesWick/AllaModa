@@ -1,11 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:id="@+id/longPants"
-        android:layout_height="match_parent"
-        tools:context=".long_pants_activity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#999999"
+              android:orientation="vertical" >
 
-</android.support.v7.widget.RecyclerView>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Capturing Image" />
+
+    <FrameLayout
+            android:id="@+id/camera_frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+        <ImageView
+                android:id="@+id/camera_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        <SurfaceView
+                android:id="@+id/preview_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        <ImageView
+                android:id="@+id/camera_preview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/content_desc_overlay"
+                android:scaleType="centerInside"
+                android:src="@drawable/pants" />
+    </FrameLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+        <Button
+                android:id="@+id/capture_image_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="capture image" />
+
+        <Button
+                android:id="@+id/done_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="done" />
+    </LinearLayout>
+
+</LinearLayout>

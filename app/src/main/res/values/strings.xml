@@ -6,11 +6,28 @@
         124 -186 124 -308 156 l-121 32 -22 -25 c-41 -47 -105 -68 -210 -68 -104 0
         -168 21 -212 68 l-23 24 -120 -31z
     </string>
-    <string name="pants">M4485 5310 c-12 -20 -985 -3802 -980 -3810 4 -7 243 -10 721 -10 546
-        0 719 -3 734 -12 13 -8 23 -9 29 -3 6 6 128 561 271 1235 144 674 263 1233
-        266 1243 5 15 20 17 139 17 l134 0 5 -42 c8 -60 177 -2299 180 -2375 1 -34 5
-        -65 8 -68 10 -10 1612 -5 1622 5 6 6 -121 680 -359 1892 -202 1036 -371 1893
-        -374 1906 l-6 22 -1194 3 c-656 1 -1194 0 -1196 -3z
+    <string name="pants">M1576 5727 c-3 -18 -8 -113 -11 -212 -3 -99 -8 -211 -10 -250 -73\n" +
+        "-1133 -76 -1292 -58 -2925 11 -1043 28 -1734 44 -1776 6 -17 22 -24 71 -34 75\n" +
+        "-15 557 -25 576 -12 10 6 14 70 18 258 5 280 20 634 34 799 12 145 37 537 50\n" +
+        "800 24 460 143 1636 164 1615 5 -5 19 -100 32 -212 12 -112 36 -309 53 -438\n" +
+        "44 -337 65 -546 116 -1150 24 -294 49 -587 54 -650 6 -63 22 -297 36 -520 14\n" +
+        "-223 29 -430 33 -460 l7 -55 45 -7 c69 -10 447 -9 522 2 36 5 78 15 92 21 l26\n" +
+        "12 0 486 c1 267 5 803 11 1191 5 388 12 1045 14 1460 2 415 7 870 10 1010 4\n" +
+        "147 1 353 -5 485 -6 127 -15 305 -19 397 -4 92 -9 169 -12 171 -2 2 -89 0\n" +
+        "-194 -4 -104 -5 -311 -5 -458 -2 -225 5 -270 4 -278 -8 -5 -9 -9 -10 -9 -2 0\n" +
+        "8 -60 12 -222 12 -123 1 -277 5 -343 10 -66 6 -179 12 -252 15 l-132 5 -5 -32z
     </string>
 
+
+    <string name="title_activity_main">A Main Activity</string>
+    <string name="button_use_camera">Use Camera</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="button_capture_text">SNAP</string>
+    <string name="content_desc_overlay">overlay</string>
+    <string name="content_desc_image_just_taken">Image just taken</string>
+    <string name="start_image_capture">Take a New Picture</string>
+    <string name="capture_image">Snap it!</string>
+    <string name="save_image">Save Picture</string>
+    <string name="recapture_image">Retake Picture</string>
+    <string name="done">Done</string>
 </resources>
