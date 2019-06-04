@@ -63,6 +63,17 @@ public class DBHandler {
         );
 
     }
+    private void addHats(String pants){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO: get outfit cropper to crop shoes
+        assert user != null;
+        DocumentReference shirtRef = db.collection("users").document(user.getUid());
+        shirtRef.update(
+                //TODO: convert the field to a set of values
+                "hats", FieldValue.arrayUnion(pants)
+        );
+
+    }
 
 
     private void addShoes(String shoes){
@@ -124,16 +135,16 @@ public class DBHandler {
                 shirt = OutfitCropper.getShoes(bitmap);
                 break;
             case 3:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = OutfitCropper.getHat(bitmap);
                 break;
             case 4:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = bitmap;
                 break;
             case 5:
                 shirt = OutfitCropper.getLongShirt(bitmap);
                 break;
             default:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = OutfitCropper.getLongPants(bitmap);
                 break;
 
         }
@@ -176,6 +187,10 @@ public class DBHandler {
                     case 4:
                         addOutfit(id);
                         break;
+                    case 5:
+                        addShirt(id);
+                    case 6:
+                        addPants(id);
                 }
                 callback.onCallback(shirt);
             }
