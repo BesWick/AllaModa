@@ -10,16 +10,6 @@ import java.util.List;
 
 
 
-class tagHandler{
-    public String TAG = "value tag";
-
-    public void setView(List<Bitmap> val, ImageView imageView){
-        Log.d(TAG, "onCallback: value Size" + val.size());
-        imageView.setImageBitmap(val.get(val.size()-1));
-
-    }
-
-}
 public class DEBUG extends AppCompatActivity {
 
 
