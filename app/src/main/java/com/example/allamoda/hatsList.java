@@ -1,5 +1,7 @@
 package com.example.allamoda;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,10 +22,11 @@ public class hatsList extends AppCompatActivity {
         setContentView(R.layout.activity_hats_list);
         recyclerView = (RecyclerView) findViewById(R.id.hatList);
 
+        SharedPreferences sharedPref = this. getSharedPreferences("hat", Context.MODE_PRIVATE);
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
-
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

@@ -133,7 +133,7 @@ public class DBHandler {
                 shirt = OutfitCropper.getLongShirt(bitmap);
                 break;
             default:
-                shirt = OutfitCropper.getShortShirt(bitmap);
+                shirt = OutfitCropper.getShortPants(bitmap);
                 break;
 
         }
@@ -175,6 +175,12 @@ public class DBHandler {
                         break;
                     case 4:
                         addOutfit(id);
+                        break;
+                    case 5:
+                        addShirt(id);
+                        break;
+                    case 6:
+                        addPants(id);
                         break;
                 }
                 callback.onCallback(shirt);

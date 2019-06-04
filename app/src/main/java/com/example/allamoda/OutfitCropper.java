@@ -63,6 +63,15 @@ public class OutfitCropper  {
         Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
         return image;
     }
+    private static Path getShortPantsPath(Bitmap src) {
+        return resizePath(PathParser.createPathFromPathData(OutfitOutline.SHORT_PANTS),
+                src.getWidth(), src.getHeight());
+    }
+    public static Bitmap getShortPants(Bitmap bitmap){
+        Path path = getShortPantsPath(bitmap);
+        Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
+        return image;
+    }
 
     public static Path resizePath(Path path, float width, float height) {
         RectF bounds = new RectF(0, 0, width, height);

@@ -1,6 +1,7 @@
 package com.example.allamoda;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -22,7 +23,8 @@ public class hatAdapter extends RecyclerView.Adapter<hatAdapter.MyViewHolder> {
     private LayoutInflater mInflater;
 
     private ArrayList<String> title;
-    private ArrayList<Bitmap> image;
+
+    private Context hatContext;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -36,8 +38,10 @@ public class hatAdapter extends RecyclerView.Adapter<hatAdapter.MyViewHolder> {
     }
 
     public hatAdapter (ArrayList<String> givenTitle, Context context){
+
         this.mInflater = LayoutInflater.from(context);
         title = givenTitle;
+        hatContext = context;
     }
     @Override
     public hatAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -47,13 +51,26 @@ public class hatAdapter extends RecyclerView.Adapter<hatAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final hatAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final hatAdapter.MyViewHolder myViewHolder, final int i) {
         Log.d(TAG, "onBindViewHolder: titleView" + title.get(i));
         DBHandler db = new DBHandler();
         db.getImage(title.get(i), new DBHandler.MyCallback() {
             @Override
-            public void onCallback(Bitmap value) {
+            public void onCallback(final Bitmap value) {
                 myViewHolder.image.setImageBitmap(value);
+                myViewHolder.textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SharedPreferences sharedPref = hatContext.getSharedPreferences(
+                               "outfit", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("hat", title.get(i));
+                        editor.commit();
+
+                        String out = sharedPref.getString("hat","null");
+                        Log.d(TAG, "onClick: Hat is "+ out);
+                    }
+                });
             }
         });
 
