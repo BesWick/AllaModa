@@ -130,7 +130,10 @@ public class DBHandler {
                 shirt = OutfitCropper.getShortShirt(bitmap);
                 break;
             case 5:
-                shirt = OutfitCropper.getLongShirt(bitmap);
+                Matrix matrixLong = new Matrix();
+                matrixLong.preScale(1.0f, -1.0f);
+                Bitmap newLong = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                shirt = OutfitCropper.getLongShirt(newLong);
                 break;
             default:
                 shirt = OutfitCropper.getShortPants(bitmap);
@@ -144,6 +147,7 @@ public class DBHandler {
         StorageReference imageRef = storageRef.child(timeStamp+".png");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         shirt.compress(Bitmap.CompressFormat.PNG, 50, baos);
+
         byte[] data = baos.toByteArray();
         UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -157,7 +161,6 @@ public class DBHandler {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
                 String id = taskSnapshot.getMetadata().getName().toString();
-                Log.d(TAG, "onSuccess: ID IS"+ id);
 
                 //this switch is used to determine the category of the item
                 switch (option){

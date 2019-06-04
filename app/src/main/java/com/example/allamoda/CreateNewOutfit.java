@@ -128,7 +128,6 @@ public class CreateNewOutfit extends AppCompatActivity {
 
 
         DBHandler db = new DBHandler();
-        Log.d(TAG, "onResume: hat Value "+ hatValue);
 
         hatView = findViewById(R.id.hatPreview);
         shoesView = findViewById(R.id.ShoesPreview);

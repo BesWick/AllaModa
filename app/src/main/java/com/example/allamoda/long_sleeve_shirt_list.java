@@ -157,7 +157,7 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
         mCameraData = data;
 
         Bitmap orignalImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap bitmapImage = rotate(orignalImage, 0);
+        Bitmap bitmapImage = rotate(orignalImage, 90);
         DBHandler db = new DBHandler();
         db.addImage(DBHandler.LONG_SHIRT_OPTION, bitmapImage, new DBHandler.MyCallback() {
             @Override
@@ -189,7 +189,7 @@ public class long_sleeve_shirt_list extends Activity implements Camera.PictureCa
 
         Matrix mtx = new Matrix();
         //       mtx.postRotate(degree);
-        mtx.setRotate(degree);
+        mtx.postRotate(degree);
 
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
     }

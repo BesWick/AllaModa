@@ -33,7 +33,7 @@ public class ShortShirtListSelect extends AppCompatActivity {
         db.getOutfitAll(DBHandler.SHIRT_OPTION, new DBHandler.ReturnCallBack() {
             @Override
             public void onCallback(List<String> value) {
-                mAdapter = new hatAdapter((ArrayList<String>) value, ShortShirtListSelect.this);
+                mAdapter = new shirtAdapter((ArrayList<String>) value, ShortShirtListSelect.this);
                 recyclerView.setAdapter(mAdapter);
             }
         });

@@ -35,7 +35,11 @@ public class OutfitCropper  {
     public static Bitmap getLongShirt(Bitmap bitmap){
         Path path = getLongShirtPath(bitmap);
         Bitmap image = BitmapUtils.getCropBitmap(bitmap, path);
-        return image;
+        Matrix matrix = new Matrix();
+        matrix.preScale(1.0f, -1.0f);
+        Bitmap newLong = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+
+        return newLong;
     }
 
 

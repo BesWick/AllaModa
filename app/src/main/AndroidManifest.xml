@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.allamoda">
-    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature
             android:name="android.hardware.camera"
@@ -14,11 +15,19 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".hatsList">
+        <activity android:name=".ShoesListSelect">
+        </activity>
+        <activity android:name=".LongShirtListSelect">
+        </activity>
+        <activity android:name=".ShortShirtListSelect">
+        </activity>
+        <activity android:name=".HatsListSelect">
         </activity>
         <activity android:name=".style_activity">
         </activity>
         <activity android:name=".newclothessaved">
+        </activity>
+        <activity android:name=".ShortsListSelect">
         </activity>
         <activity android:name=".OutfitDone">
         </activity>
@@ -46,25 +55,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".T_Shirt_list"
-            android:label="@string/title_activity_camera"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+                android:name=".T_Shirt_list"
+                android:label="@string/title_activity_camera"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity
                 android:name=".long_pants_activity"
                 android:label="@string/title_activity_camera"
                 android:screenOrientation="portrait"
-                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity
                 android:name=".shoes_list"
                 android:label="@string/title_activity_camera"
                 android:screenOrientation="portrait"
-                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity
                 android:name=".long_sleeve_shirt_list"
                 android:label="@string/title_activity_camera"
                 android:screenOrientation="portrait"
-                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
     </application>
 
 </manifest>

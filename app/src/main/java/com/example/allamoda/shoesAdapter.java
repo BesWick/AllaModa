@@ -53,7 +53,6 @@ public class shoesAdapter extends RecyclerView.Adapter<shoesAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final shoesAdapter.MyViewHolder myViewHolder, final int i) {
-        Log.d(TAG, "onBindViewHolder: titleView" + title.get(i));
         DBHandler db = new DBHandler();
         db.getImage(title.get(i), new DBHandler.MyCallback() {
             @Override
