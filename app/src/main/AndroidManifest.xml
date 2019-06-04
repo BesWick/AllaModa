@@ -13,6 +13,18 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".T_Shirt_list">
+        </activity>
+        <activity android:name=".long_sleeve_shirt_list">
+        </activity>
+        <activity android:name=".shorts_list">
+        </activity>
+        <activity android:name=".shoes_list">
+        </activity>
+        <activity android:name=".long_pants_activity">
+        </activity>
+        <activity android:name=".hatsList">
+        </activity>
         <activity android:name=".style_activity">
         </activity>
         <activity android:name=".newclothessaved">
