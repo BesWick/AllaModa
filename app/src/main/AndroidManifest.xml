@@ -13,6 +13,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".style_activity">
+        </activity>
+        <activity android:name=".newclothessaved">
+        </activity>
+        <activity android:name=".OutfitDone">
+        </activity>
         <activity android:name=".PANTS_DEBUG">
         </activity>
         <activity android:name=".DEBUG_TAKE_PICTURE">
