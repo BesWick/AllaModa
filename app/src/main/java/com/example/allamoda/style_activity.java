@@ -6,17 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class CreateNewOutfit extends AppCompatActivity {
+public class style_activity extends AppCompatActivity {
     private android.widget.Button button;
     private android.widget.Button button2;
-    private android.widget.Button button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_outfit);
+        setContentView(R.layout.activity_style_activity);
 
-        button = (Button) findViewById(R.id.button7); // Home Page
+        button = (Button) findViewById(R.id.button16); // Home Page
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -24,19 +23,11 @@ public class CreateNewOutfit extends AppCompatActivity {
             }
         });
 
-        button2 = (Button) findViewById(R.id.button8); // Style
+        button2 = (Button) findViewById(R.id.button17); // Select
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openActivity2();
-            }
-        });
-
-        button3 = (Button) findViewById(R.id.button6); // Finish
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity3();
             }
         });
     }
@@ -47,12 +38,7 @@ public class CreateNewOutfit extends AppCompatActivity {
     }
 
     public void openActivity2(){
-        Intent intent2 = new Intent(this, OutfitDone.class);
-        startActivity(intent2);
-    }
-
-    public void openActivity3(){
-        Intent intent2 = new Intent(this, style_activity.class);
+        Intent intent2 = new Intent(this, CreateNewOutfit.class);
         startActivity(intent2);
     }
 }
