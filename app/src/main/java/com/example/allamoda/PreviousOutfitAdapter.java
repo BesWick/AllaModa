@@ -28,7 +28,6 @@ public class PreviousOutfitAdapter extends RecyclerView.Adapter<PreviousOutfitAd
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public Button textView;
         public ImageView image;
         public MyViewHolder(View v) {
             super(v);

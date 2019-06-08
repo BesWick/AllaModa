@@ -18,8 +18,8 @@ public class PreviousOutfits extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_long_shirt_list_select);
-        recyclerView = (RecyclerView) findViewById(R.id.LongShirtRecycler);
+        setContentView(R.layout.activity_previous_outfits);
+        recyclerView = (RecyclerView) findViewById(R.id.previousOutfits);
 
 
         // use this setting to improve performance if you know that changes
@@ -32,7 +32,7 @@ public class PreviousOutfits extends AppCompatActivity {
         db.getOutfitAll(DBHandler.OUTFIT_OPTION, new DBHandler.ReturnCallBack() {
             @Override
             public void onCallback(List<String> value) {
-                mAdapter = new shirtAdapter((ArrayList<String>) value, PreviousOutfits.this);
+                mAdapter = new PreviousOutfitAdapter((ArrayList<String>) value, PreviousOutfits.this);
                 recyclerView.setAdapter(mAdapter);
             }
         });

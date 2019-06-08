@@ -156,12 +156,14 @@ public class shoes_list extends Activity implements PictureCallback, SurfaceHold
         mCameraData = data;
 
         Bitmap orignalImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap bitmapImage = rotate(orignalImage, 0);
+        Bitmap bitmapImage = rotate(orignalImage, 90);
+        Matrix matrix = new Matrix();
+        matrix.preScale(1.0f, -1.0f);
+        Bitmap newLong = Bitmap.createBitmap(bitmapImage, 0, 0, bitmapImage.getWidth(), bitmapImage.getHeight(), matrix, true);
         DBHandler db = new DBHandler();
-        db.addImage(DBHandler.SHOES_OPTION, bitmapImage, new DBHandler.MyCallback() {
+        db.addImage(DBHandler.SHOES_OPTION, newLong, new DBHandler.MyCallback() {
             @Override
             public void onCallback(Bitmap value) {
-
             }
         });
 
