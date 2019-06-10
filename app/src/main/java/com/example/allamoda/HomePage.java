@@ -10,7 +10,6 @@ public class HomePage extends AppCompatActivity {
     private android.widget.Button button2;
     private android.widget.Button button3;
     private android.widget.Button button4;
-    private android.widget.Button button5;
 
 
     @Override
